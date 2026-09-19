@@ -372,7 +372,6 @@ SINGLE_BATTLE_TEST("Mega Sol multiplies the power of Fire-type moves by 1.5x (Tr
 
     GIVEN {
         ASSUME(GetMoveType(MOVE_EMBER) == TYPE_FIRE);
-        ASSUME(GetMoveEffect(MOVE_SKILL_SWAP) == EFFECT_SKILL_SWAP);
         PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL); ; }
         OPPONENT(SPECIES_MEGANIUM);
     } WHEN {
@@ -393,7 +392,6 @@ SINGLE_BATTLE_TEST("Mega Sol halves the power of the user's Water-type moves (Tr
 
     GIVEN {
         ASSUME(GetMoveType(MOVE_WATER_GUN) == TYPE_WATER);
-        ASSUME(GetMoveEffect(MOVE_SKILL_SWAP) == EFFECT_SKILL_SWAP);
         PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL); ; }
         OPPONENT(SPECIES_MEGANIUM);
     } WHEN {
@@ -437,21 +435,18 @@ SINGLE_BATTLE_TEST("Weather Ball doubles its power and turns to a Fire-type move
 
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_WEATHER_BALL) == EFFECT_WEATHER_BALL);
-        ASSUME(GetMoveEffect(MOVE_SKILL_SWAP) == EFFECT_SKILL_SWAP);
         ASSUME(GetSpeciesType(SPECIES_PINSIR, 0) == TYPE_BUG || GetSpeciesType(SPECIES_PINSIR, 1) == TYPE_BUG);
-        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL); ; }
-        OPPONENT(SPECIES_PINSIR){HP(9999); MaxHP(9999);}
+        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL); }
+        OPPONENT(SPECIES_MEGANIUM){HP(9999); MaxHP(9999);}
     } WHEN {
-        TURN { MOVE(player, MOVE_WEATHER_BALL, gimmick: GIMMICK_MEGA); MOVE(opponent, MOVE_SKILL_SWAP); }
-        TURN { MOVE(player, MOVE_WEATHER_BALL); }
+        TURN { MOVE(player, MOVE_WEATHER_BALL); MOVE(opponent, MOVE_WEATHER_BALL); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_WEATHER_BALL, player);
         HP_BAR(opponent, captureDamage: &damage[0]);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponent);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_WEATHER_BALL, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_WEATHER_BALL, opponent);
         HP_BAR(opponent, captureDamage: &damage[1]);
     } THEN {
-        EXPECT_MUL_EQ(damage[1], Q_4_12(6.0), damage[0]); // double base power + type effectiveness + sun 50% boost
+        EXPECT_MUL_EQ(damage[1], Q_4_12(2.0), damage[0]); // double base power + type effectiveness + sun 50% boost
     }
 }
 
@@ -481,19 +476,19 @@ SINGLE_BATTLE_TEST("Mega Sol ignores Sandstorm's solarbeam power reduction, and 
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_SOLARBEAM) == EFFECT_SOLAR_BEAM);
         ASSUME(GetMoveType(MOVE_SOLARBEAM) == TYPE_GRASS);
-        ASSUME(GetMoveEffect(MOVE_SKILL_SWAP) == EFFECT_SKILL_SWAP);
         ASSUME(GetSpeciesType(SPECIES_BASTIODON, 0) == TYPE_ROCK || GetSpeciesType(SPECIES_BASTIODON, 1) == TYPE_ROCK);
-        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL); ; }
+        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL); }
+        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); }
         OPPONENT(SPECIES_BASTIODON) { Ability(ABILITY_SOUNDPROOF); Innates(ABILITY_SAND_STREAM);}
     } WHEN {
-        TURN { MOVE(player, MOVE_SOLAR_BEAM); MOVE(opponent, MOVE_SKILL_SWAP); }
+        TURN { MOVE(player, MOVE_SOLAR_BEAM); }
+        TURN { SWITCH(player, 1); }
         TURN { MOVE(player, MOVE_SOLAR_BEAM); }
         TURN { SKIP_TURN(player); }
     } SCENE {
         ABILITY_POPUP(opponent, ABILITY_SAND_STREAM);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SOLAR_BEAM, player);
         HP_BAR(opponent, captureDamage: &damage[0]);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SOLAR_BEAM, player);
         HP_BAR(opponent, captureDamage: &damage[1]);
     } THEN {
@@ -507,20 +502,18 @@ SINGLE_BATTLE_TEST("Mega Sol ignores Snow's Ice-type Defense boost (Traits)")
 
     GIVEN {
         ASSUME(IsBattleMovePhysical(MOVE_SCRATCH));
-        ASSUME(GetMoveEffect(MOVE_SKILL_SWAP) == EFFECT_SKILL_SWAP);
         ASSUME(GetSpeciesType(SPECIES_VANILLUXE, 0) == TYPE_ICE || GetSpeciesType(SPECIES_VANILLUXE, 1) == TYPE_ICE);
-        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL); ; }
+        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL);}
+        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW);}
         OPPONENT(SPECIES_VANILLUXE) { Ability(ABILITY_ICE_BODY); Innates(ABILITY_SNOW_WARNING); }
     } WHEN {
-        TURN { MOVE(player, MOVE_CELEBRATE); }
         TURN { MOVE(player, MOVE_SCRATCH); }
-        TURN { MOVE(opponent, MOVE_SKILL_SWAP); }
+        TURN { SWITCH(player, 1); }
         TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
         ABILITY_POPUP(opponent, ABILITY_SNOW_WARNING);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         HP_BAR(opponent, captureDamage: &damage[0]);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         HP_BAR(opponent, captureDamage: &damage[1]);
     } THEN {
@@ -570,16 +563,16 @@ SINGLE_BATTLE_TEST("Mega Sol ignores Cloud Nine (Traits)")
 
     GIVEN {
         ASSUME(GetMoveType(MOVE_EMBER) == TYPE_FIRE);
-        ASSUME(GetMoveEffect(MOVE_SKILL_SWAP) == EFFECT_SKILL_SWAP);
-        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL); ;}
-        OPPONENT(species) { Ability(ability); }
+        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL);}
+        PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW);}
+        OPPONENT(species) { Ability(ABILITY_LIGHT_METAL); Innates(ability); }
     } WHEN {
-        TURN { MOVE(player, MOVE_EMBER); MOVE(opponent, MOVE_SKILL_SWAP); }
+        TURN { MOVE(player, MOVE_EMBER); }
+        TURN { SWITCH(player, 1); }
         TURN { MOVE(player, MOVE_EMBER); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_EMBER, player);
         HP_BAR(opponent, captureDamage: &damage[0]);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_EMBER, player);
         HP_BAR(opponent, captureDamage: &damage[1]);
     } THEN {

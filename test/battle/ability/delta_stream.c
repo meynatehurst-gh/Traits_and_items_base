@@ -50,3 +50,51 @@ DOUBLE_BATTLE_TEST("Strong winds continue as long as there's a Pokémon with Del
         EXPECT(gBattleWeather & B_WEATHER_STRONG_WINDS);
     }
 }
+
+#if MAX_MON_TRAITS > 1
+DOUBLE_BATTLE_TEST("Delta Stream doesn't activate if there's already strong winds (Traits)")
+{
+    GIVEN {
+        PLAYER(SPECIES_RAYQUAZA) { Moves( MOVE_CELEBRATE); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DELTA_STREAM); }
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_RAYQUAZA) { Moves( MOVE_CELEBRATE); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DELTA_STREAM); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN {
+            MOVE(opponentLeft, MOVE_CELEBRATE);
+            MOVE(playerLeft, MOVE_CELEBRATE);
+        }
+    } SCENE {
+        ABILITY_POPUP(opponentLeft, ABILITY_DELTA_STREAM);
+        MESSAGE("Mysterious strong winds are protecting Flying-type Pokémon!");
+        NONE_OF {
+            ABILITY_POPUP(playerLeft, ABILITY_DELTA_STREAM);
+            MESSAGE("Mysterious strong winds are protecting Flying-type Pokémon!");
+        }
+    }
+}
+
+DOUBLE_BATTLE_TEST("Strong winds continue as long as there's a Pokémon with Delta Stream on the field (Traits)")
+{
+    GIVEN {
+        PLAYER(SPECIES_RAYQUAZA) { HP(1); Speed(5); Moves( MOVE_CELEBRATE); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DELTA_STREAM); }
+        PLAYER(SPECIES_WOBBUFFET) { Speed(4); }
+        PLAYER(SPECIES_WOBBUFFET) { Speed(3); }
+        OPPONENT(SPECIES_RAYQUAZA) { Speed(2); Moves( MOVE_CELEBRATE, MOVE_SCRATCH); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DELTA_STREAM); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(1); }
+    } WHEN {
+        TURN {
+            MOVE(playerLeft, MOVE_CELEBRATE);
+            MOVE(opponentLeft, MOVE_CELEBRATE);
+        }
+        TURN { MOVE(opponentLeft, MOVE_SCRATCH, target: playerLeft); SEND_OUT(playerLeft, 2); }
+    } SCENE {
+        ABILITY_POPUP(playerLeft, ABILITY_DELTA_STREAM);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponentLeft);
+        HP_BAR(playerLeft);
+        NOT MESSAGE("The mysterious strong winds have dissipated!");
+    } THEN {
+        EXPECT(gBattleWeather & B_WEATHER_STRONG_WINDS);
+    }
+}
+#endif

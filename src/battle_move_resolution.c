@@ -4921,7 +4921,9 @@ static enum MoveResult StatChangeTryChange(struct BattleCalcValues *cv)
         bool32 runScript = FALSE;
         st.statStageQueue = gSpecialStatuses[cv->battlerDef].statStageQueue;
         st.statStageAmount = gSpecialStatuses[cv->battlerDef].statStageAmount;
-
+        // Resetting Defiant Competitive availability after a move (Multi)
+        gBattleStruct->defiantActivated[cv->battlerDef] = FALSE;
+        gBattleStruct->competitiveActivated[cv->battlerDef] = FALSE;
         if (TryStatChange(cv, &st) != STAT_CHANGE_DIDNT_WORK)
             runScript = TRUE;
 

@@ -11110,6 +11110,9 @@ static void Cmd_trybattlerstatchange(void)
     }
     else
     {
+        // Resetting Defiant/Competitive on non statStageQueue2 changes
+        gBattleStruct->defiantActivated[cv.battlerDef] = FALSE;
+        gBattleStruct->competitiveActivated[cv.battlerDef] = FALSE;
         st.statStageQueue = gSpecialStatuses[cv.battlerDef].statStageQueue;
         st.statStageAmount = gSpecialStatuses[cv.battlerDef].statStageAmount;
     }
@@ -14383,40 +14386,82 @@ void BS_TryWakeBattlersUproar(void)
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
-void BS_TryDefiantRattled(void)
+void BS_TryDefiant(void)
 {
     NATIVE_ARGS();
 
-    bool32 defiantCompetitive = FALSE;
     enum BattlerId battler = gBattleScripting.battler;
     enum Ability battlerTraits[MAX_MON_TRAITS];
     STORE_BATTLER_TRAITS(battler);
 
+    bool32 defiantActivates = SearchTraits(battlerTraits, ABILITY_DEFIANT) && !gBattleStruct->defiantActivated[battler];
+    bool32 competitiveActivates = SearchTraits(battlerTraits, ABILITY_COMPETITIVE) && !gBattleStruct->competitiveActivated[battler];
+
     if (ShouldDefiantCompetitiveActivate(battler))
     {
-        if (SearchTraits(battlerTraits, ABILITY_DEFIANT))
+        if (defiantActivates && competitiveActivates)
         {
-            defiantCompetitive = TRUE;
-            PushTraitStack(battler, ABILITY_DEFIANT);
-            SetStatChange2(battler, STAT_ATK, 2);
-            RecordAbilityBattle(battler, ABILITY_DEFIANT);
-        }
-        if (SearchTraits(battlerTraits, ABILITY_COMPETITIVE))
-        {
-            defiantCompetitive = TRUE;
-            PushTraitStack(battler, ABILITY_COMPETITIVE);
+            gBattleStruct->defiantActivated[battler] = TRUE;
+            gBattleStruct->competitiveActivated[battler] = TRUE;
             SetStatChange2(battler, STAT_SPATK, 2);
+            SetStatChange2(battler, STAT_ATK, 2);
+            PushTraitStack(battler, ABILITY_COMPETITIVE);
+            PushTraitStack(battler, ABILITY_DEFIANT);
             RecordAbilityBattle(battler, ABILITY_COMPETITIVE);
-        }
-
-        if(defiantCompetitive)
-        {
+            RecordAbilityBattle(battler, ABILITY_DEFIANT);
+            gBattlescriptCurrInstr = BattleScript_DefiantCompetitiveActivates;
             gBattlerAbility = battler;
             BattleScriptPush(cmd->nextInstr);
+            return;
+        }
+        else if (defiantActivates)
+        {
+            gBattleStruct->defiantActivated[battler] = TRUE;
+            SetStatChange2(battler, STAT_ATK, 2);
+            PushTraitStack(battler, ABILITY_DEFIANT);
+            RecordAbilityBattle(battler, ABILITY_DEFIANT);
             gBattlescriptCurrInstr = BattleScript_DefiantActivates;
+            gBattlerAbility = battler;
+            BattleScriptPush(cmd->nextInstr);
+            return;
+        }
+        else if (competitiveActivates)
+        {
+            gBattleStruct->competitiveActivated[battler] = TRUE;
+            SetStatChange2(battler, STAT_SPATK, 2);
+            PushTraitStack(battler, ABILITY_COMPETITIVE);
+            RecordAbilityBattle(battler, ABILITY_COMPETITIVE);
+            gBattlescriptCurrInstr = BattleScript_CompetitiveActivates;
+            gBattlerAbility = battler;
+            BattleScriptPush(cmd->nextInstr);
             return;
         }
     }
+   
+    gBattleStruct->ignoreDefiant = FALSE;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_ClearDefiant(void)
+{
+    NATIVE_ARGS();
+
+    for (enum BattlerId i = 0; i < MAX_BATTLERS_COUNT; i++)
+    {
+        gBattleStruct->defiantActivated[i] = FALSE;
+        gBattleStruct->competitiveActivated[i] = FALSE;
+    }
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_TryRattled(void)
+{
+    NATIVE_ARGS();
+
+    enum BattlerId battler = gBattleScripting.battler;
+    enum Ability battlerTraits[MAX_MON_TRAITS];
+    STORE_BATTLER_TRAITS(battler);
 
     if (SearchTraits(battlerTraits, ABILITY_RATTLED))
     {
@@ -14427,12 +14472,11 @@ void BS_TryDefiantRattled(void)
             PushTraitStack(battler, ABILITY_RATTLED);
             RecordAbilityBattle(battler, ABILITY_RATTLED);
             BattleScriptPush(cmd->nextInstr);
-            gBattlescriptCurrInstr = BattleScript_DefiantActivates;
+            gBattlescriptCurrInstr = BattleScript_RattledActivates;
             return;
         }
     }
 
-    gBattleStruct->ignoreDefiant = FALSE;
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 

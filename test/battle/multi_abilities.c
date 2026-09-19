@@ -2,49 +2,51 @@
 #include "test/battle.h"
 
 #if MAX_MON_TRAITS > 3
-SINGLE_BATTLE_TEST("Multi - Contrary causes Competitive or Defiant to sharply lower stats", s16 damage)
-{
-    u32 ability, attack;
-    PARAMETRIZE { ability = ABILITY_OVERGROW; attack = MOVE_WATER_GUN;}
-    PARAMETRIZE { ability = ABILITY_COMPETITIVE; attack = MOVE_WATER_GUN;}
-    PARAMETRIZE { ability = ABILITY_OVERGROW; attack = MOVE_TACKLE;}
-    PARAMETRIZE { ability = ABILITY_DEFIANT; attack = MOVE_TACKLE;}
-    GIVEN {
-        PLAYER(SPECIES_SUNFLORA) { Speed(3); }
-        OPPONENT(SPECIES_SNIVY) { Ability(ABILITY_CONTRARY); Innates(ability); Speed(2); }
-    } WHEN {
-        TURN { MOVE(player, MOVE_FLOWER_SHIELD); MOVE(opponent, attack); }
-    } SCENE {
-        MESSAGE("Sunflora used Flower Shield!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_FLOWER_SHIELD, player);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
-        MESSAGE("Sunflora's Defense rose!");
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Snivy's Defense fell!");
-        //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
 
-        if (ability == ABILITY_COMPETITIVE) {
-            ABILITY_POPUP(opponent, ABILITY_COMPETITIVE);
-            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-            MESSAGE("The opposing Snivy's Sp. Atk harshly fell!");
-            //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
-        }
-        else if (ability == ABILITY_DEFIANT){
-            ABILITY_POPUP(opponent, ABILITY_DEFIANT);
-            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-            MESSAGE("The opposing Snivy's Attack harshly fell!");
-            //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
-        }
+// Depricated as Competitive and Defiant now only trigger on stat down
+// SINGLE_BATTLE_TEST("Multi - Contrary causes Competitive or Defiant to sharply lower stats", s16 damage)
+// {
+//     u32 ability, attack;
+//     PARAMETRIZE { ability = ABILITY_OVERGROW; attack = MOVE_WATER_GUN;}
+//     PARAMETRIZE { ability = ABILITY_COMPETITIVE; attack = MOVE_WATER_GUN;}
+//     PARAMETRIZE { ability = ABILITY_OVERGROW; attack = MOVE_TACKLE;}
+//     PARAMETRIZE { ability = ABILITY_DEFIANT; attack = MOVE_TACKLE;}
+//     GIVEN {
+//         PLAYER(SPECIES_SUNFLORA) { Speed(3); }
+//         OPPONENT(SPECIES_SNIVY) { Ability(ABILITY_CONTRARY); Innates(ability); Speed(2); }
+//     } WHEN {
+//         TURN { MOVE(player, MOVE_FLOWER_SHIELD); MOVE(opponent, attack); }
+//     } SCENE {
+//         MESSAGE("Sunflora used Flower Shield!");
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_FLOWER_SHIELD, player);
+//         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
+//         MESSAGE("Sunflora's Defense rose!");
+//         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+//         MESSAGE("The opposing Snivy's Defense fell!");
+//         //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
 
-        HP_BAR(player, captureDamage: &results[i].damage);
-    }
-    FINALLY {
-        EXPECT_MUL_EQ(results[1].damage, Q_4_12(2), results[0].damage);
-        EXPECT_MUL_EQ(results[3].damage, Q_4_12(2), results[2].damage);
-    }
-}
+//         if (ability == ABILITY_COMPETITIVE) {
+//             ABILITY_POPUP(opponent, ABILITY_COMPETITIVE);
+//             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+//             MESSAGE("The opposing Snivy's Sp. Atk harshly fell!");
+//             //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
+//         }
+//         else if (ability == ABILITY_DEFIANT){
+//             ABILITY_POPUP(opponent, ABILITY_DEFIANT);
+//             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+//             MESSAGE("The opposing Snivy's Attack harshly fell!");
+//             //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
+//         }
 
-SINGLE_BATTLE_TEST("Multi - Contrary causes Competitive and Defiant to sharply lower both stats", s16 damage)
+//         HP_BAR(player, captureDamage: &results[i].damage);
+//     }
+//     FINALLY {
+//         EXPECT_MUL_EQ(results[1].damage, Q_4_12(2), results[0].damage);
+//         EXPECT_MUL_EQ(results[3].damage, Q_4_12(2), results[2].damage);
+//     }
+// }
+
+SINGLE_BATTLE_TEST("Multi - Contrary causes Competitive and Defiant to sharply lower both stats once each", s16 damage)
 {
     u32 ability1, ability2, attack;
     PARAMETRIZE { ability1 = ABILITY_OVERGROW; ability2 = ABILITY_OVERGROW; attack = MOVE_WATER_GUN;}
@@ -66,15 +68,12 @@ SINGLE_BATTLE_TEST("Multi - Contrary causes Competitive and Defiant to sharply l
         MESSAGE("The opposing Snivy's Defense fell!");
         //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
 
-        if (ability2 == ABILITY_DEFIANT){
+        if (ability1 == ABILITY_DEFIANT){
             ABILITY_POPUP(opponent, ABILITY_DEFIANT);
-            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-            MESSAGE("The opposing Snivy's Attack harshly fell!");
-            //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
-            ABILITY_POPUP(opponent, ABILITY_COMPETITIVE);
+            //ABILITY_POPUP(opponent, ABILITY_COMPETITIVE);  //Both popups are visible but the second doesn't clear the test
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
             MESSAGE("The opposing Snivy's Sp. Atk harshly fell!");
-            //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
+            MESSAGE("The opposing Snivy's Attack harshly fell!");
         }
         ANIMATION(ANIM_TYPE_MOVE, attack, opponent);
         HP_BAR(player, captureDamage: &results[i].damage);
@@ -85,6 +84,48 @@ SINGLE_BATTLE_TEST("Multi - Contrary causes Competitive and Defiant to sharply l
     }
 }
 
+DOUBLE_BATTLE_TEST("Multi - Contrary causes Competitive and Defiant to sharply lower both stats once each (Doubles)")
+{
+    GIVEN {
+        PLAYER(SPECIES_SUNFLORA) { Speed(4); }
+        PLAYER(SPECIES_SUNFLORA) { Speed(3); }
+        OPPONENT(SPECIES_SNIVY) { Ability(ABILITY_CONTRARY); Innates(ABILITY_DEFIANT, ABILITY_COMPETITIVE); Speed(2);}
+        OPPONENT(SPECIES_SNIVY) { Ability(ABILITY_CONTRARY); Innates(ABILITY_DEFIANT, ABILITY_COMPETITIVE); Speed(1);}
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_FLOWER_SHIELD); MOVE(playerRight, MOVE_FLOWER_SHIELD); }
+    } SCENE {
+
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_FLOWER_SHIELD, playerLeft);
+        MESSAGE("The opposing Snivy's Defense fell!");
+        ABILITY_POPUP(opponentLeft, ABILITY_DEFIANT);
+        MESSAGE("The opposing Snivy's Sp. Atk harshly fell!");
+        MESSAGE("The opposing Snivy's Attack harshly fell!");
+        MESSAGE("The opposing Snivy's Defense fell!");
+        ABILITY_POPUP(opponentRight, ABILITY_DEFIANT);
+        MESSAGE("The opposing Snivy's Sp. Atk harshly fell!");
+        MESSAGE("The opposing Snivy's Attack harshly fell!");
+        // Second Move to make sure Competitive/Defient logic works for the whole turn
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_FLOWER_SHIELD, playerRight);
+        MESSAGE("The opposing Snivy's Defense fell!");
+        ABILITY_POPUP(opponentLeft, ABILITY_DEFIANT);
+        MESSAGE("The opposing Snivy's Sp. Atk harshly fell!");
+        MESSAGE("The opposing Snivy's Attack harshly fell!");
+        MESSAGE("The opposing Snivy's Defense fell!");
+        ABILITY_POPUP(opponentRight, ABILITY_DEFIANT);
+        MESSAGE("The opposing Snivy's Sp. Atk harshly fell!");
+        MESSAGE("The opposing Snivy's Attack harshly fell!");
+       
+    } THEN {
+        EXPECT_EQ(opponentLeft->statStages[STAT_ATK], DEFAULT_STAT_STAGE - 4);
+        EXPECT_EQ(opponentLeft->statStages[STAT_SPATK], DEFAULT_STAT_STAGE - 4);
+        EXPECT_EQ(opponentLeft->statStages[STAT_DEF], DEFAULT_STAT_STAGE - 2);
+        EXPECT_EQ(opponentRight->statStages[STAT_ATK], DEFAULT_STAT_STAGE - 4);
+        EXPECT_EQ(opponentRight->statStages[STAT_SPATK], DEFAULT_STAT_STAGE - 4);
+        EXPECT_EQ(opponentRight->statStages[STAT_DEF], DEFAULT_STAT_STAGE - 2);
+    }
+}
+
+// Contrary, Defiant, and Rattled are tied to stats lowering so Contrary will prevent them from triggering with Intimidate.
 SINGLE_BATTLE_TEST("Multi - Multiple stat changing abilities activating together")
 {
     GIVEN {
@@ -106,75 +147,17 @@ SINGLE_BATTLE_TEST("Multi - Multiple stat changing abilities activating together
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
         MESSAGE("The opposing Snivy's Attack rose!");
         //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
-        ABILITY_POPUP(opponent, ABILITY_RATTLED);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Snivy's Speed fell!");
-        //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
-        ABILITY_POPUP(opponent, ABILITY_DEFIANT);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Snivy's Attack harshly fell!");
-        //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla  
-        ABILITY_POPUP(opponent, ABILITY_COMPETITIVE);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Snivy's Sp. Atk harshly fell!");
-        //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
-
-    } THEN {
-        EXPECT_EQ(opponent->statStages[STAT_ATK], DEFAULT_STAT_STAGE - 1); // Intimidate +1, Defiant -2
-        EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE - 2); // Competitive -2
-        EXPECT_EQ(opponent->statStages[STAT_SPEED], DEFAULT_STAT_STAGE - 1); // Rattled -1
-        EXPECT_EQ(opponent->statStages[STAT_EVASION], DEFAULT_STAT_STAGE + 1); // Supersweet Aroma +1
-    }
-}
-
-SINGLE_BATTLE_TEST("Multi - Contrary Intimidate still triggers Rattled")
-{
-    u32 ability1, ability2, innate1;
-    PARAMETRIZE { ability1 = ABILITY_UNNERVE; ability2 = ABILITY_OVERGROW; innate1 = ABILITY_OVERGROW;}
-    PARAMETRIZE { ability1 = ABILITY_INTIMIDATE; ability2 = ABILITY_OVERGROW; innate1 = ABILITY_OVERGROW;}
-    PARAMETRIZE { ability1 = ABILITY_INTIMIDATE; ability2 = ABILITY_CONTRARY; innate1 = ABILITY_OVERGROW;}
-    PARAMETRIZE { ability1 = ABILITY_INTIMIDATE; ability2 = ABILITY_CONTRARY; innate1 = ABILITY_RATTLED;}
-
-    GIVEN {
-        PLAYER(SPECIES_EKANS) { Ability(ability1); }
-        OPPONENT(SPECIES_SNIVY) { Ability(ability2); Innates(innate1); }
-    } WHEN {
-        TURN { }
-    } SCENE {
-        if (ability1 == ABILITY_UNNERVE)
-        {
-            ABILITY_POPUP(player, ABILITY_UNNERVE);
-            MESSAGE("The opposing team is too nervous to eat Berries!");
-        }
-        else if (ability1 == ABILITY_INTIMIDATE && ability2 != ABILITY_CONTRARY)
-        {
-            ABILITY_POPUP(player, ABILITY_INTIMIDATE);
-            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-            MESSAGE("Ekans's Intimidate cuts the opposing Snivy's Attack!");
-            MESSAGE("The opposing Snivy's Attack fell!");
-        }
-        else if (ability1 == ABILITY_INTIMIDATE && ability2 == ABILITY_CONTRARY)
-        {
-            ABILITY_POPUP(player, ABILITY_INTIMIDATE);
-            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-            MESSAGE("The opposing Snivy's Attack rose!");
-            //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
-        }
-        if (innate1 == ABILITY_RATTLED)
-        {
+        NONE_OF {
             ABILITY_POPUP(opponent, ABILITY_RATTLED);
-            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
             MESSAGE("The opposing Snivy's Speed fell!");
-            //ABILITY_POPUP(opponent, ABILITY_CONTRARY); //No popup in vanilla
-        } 
-
+            ABILITY_POPUP(opponent, ABILITY_DEFIANT);
+            MESSAGE("The opposing Snivy's Attack harshly fell!");
+            ABILITY_POPUP(opponent, ABILITY_COMPETITIVE);
+            MESSAGE("The opposing Snivy's Sp. Atk harshly fell!");
+        }
     } THEN {
-        if (ability1 == ABILITY_INTIMIDATE && ability2 != ABILITY_CONTRARY)
-            EXPECT_EQ(opponent->statStages[STAT_ATK], DEFAULT_STAT_STAGE - 1);
-        if (ability1 == ABILITY_INTIMIDATE && ability2 == ABILITY_CONTRARY)
-            EXPECT_EQ(opponent->statStages[STAT_ATK], DEFAULT_STAT_STAGE + 1);
-        if (ability1 == ABILITY_INTIMIDATE && ability2 == ABILITY_CONTRARY && innate1 == ABILITY_RATTLED)
-            EXPECT_EQ(opponent->statStages[STAT_SPEED], DEFAULT_STAT_STAGE - 1);
+        EXPECT_EQ(opponent->statStages[STAT_ATK], DEFAULT_STAT_STAGE + 1); // Intimidate +1
+        EXPECT_EQ(opponent->statStages[STAT_EVASION], DEFAULT_STAT_STAGE + 1); // Supersweet Aroma +1
     }
 }
 

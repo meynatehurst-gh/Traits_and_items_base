@@ -265,6 +265,7 @@ enum StatChangeResult TryStatChange(struct BattleCalcValues *cv, struct StatChan
         if (cv->move == MOVE_NONE)
             AdjustStatStage(cv, st);
 
+            //DebugPrintf("move %d", cv->move);
         if (st->stage < 0)
         {
             if (CanDecreaseStat(cv, st) == STAT_CHANGE_DIDNT_WORK)
@@ -283,6 +284,9 @@ enum StatChangeResult TryStatChange(struct BattleCalcValues *cv, struct StatChan
         }
         else if (IncreaseStat(cv, st) == STAT_CHANGE_WORKED)
         {
+            // Increased stats can also reset Defiant/Competitive since it would only trigger and loop against decreased Stats
+            gBattleStruct->defiantActivated[cv->battlerDef] = FALSE;
+            gBattleStruct->competitiveActivated[cv->battlerDef] = FALSE;
             result = STAT_CHANGE_WORKED;
             break;
         }
@@ -973,10 +977,6 @@ void ClearBothStatChangeQueues(void)
         gSpecialStatuses[battler].statStageAmount2 = 0;
         memset(gSpecialStatuses[battler].statStageQueue, 0, sizeof(gSpecialStatuses[battler].statStageQueue));
         gSpecialStatuses[battler].statStageAmount = 0;
-        memset(gSpecialStatuses[battler].statStageQueue3, 0, sizeof(gSpecialStatuses[battler].statStageQueue4));
-        gSpecialStatuses[battler].statStageAmount3 = 0;
-        memset(gSpecialStatuses[battler].statStageQueue4, 0, sizeof(gSpecialStatuses[battler].statStageQueue4));
-        gSpecialStatuses[battler].statStageAmount4 = 0;
     }
     gBattleStruct->negativeAnimPlayed = 0;
     gBattleStruct->positiveAnimPlayed = 0;

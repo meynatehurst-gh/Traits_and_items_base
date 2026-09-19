@@ -37,3 +37,33 @@ SINGLE_BATTLE_TEST("Thick Fat halves damage from fire and ice type moves", s16 d
     }
 }
 
+#if MAX_MON_TRAITS > 1
+SINGLE_BATTLE_TEST("Thick Fat halves damage from fire and ice type moves (Traits)", s16 damage[2])
+{
+    enum Move move;
+
+    PARAMETRIZE { move = MOVE_POWDER_SNOW; }
+    PARAMETRIZE { move = MOVE_EMBER; }
+
+    GIVEN {
+        PLAYER (SPECIES_WOBBUFFET);
+        OPPONENT (SPECIES_SNORLAX) { Ability(ABILITY_IMMUNITY); Innates(ABILITY_THICK_FAT); }
+        OPPONENT (SPECIES_SNORLAX) { Ability(ABILITY_IMMUNITY);}
+    }
+    WHEN {
+        TURN { MOVE(player, move); }
+        TURN { SWITCH(opponent, 1); }
+        TURN { MOVE(player, move); }
+    }
+    SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, move, player);
+        HP_BAR(opponent, captureDamage: &results[i].damage[0]);
+        ANIMATION(ANIM_TYPE_MOVE, move, player);
+        HP_BAR(opponent, captureDamage: &results[i].damage[1]);
+    }
+    FINALLY {
+        EXPECT_MUL_EQ(results[0].damage[0], Q_4_12(2), results[0].damage[1]);
+        EXPECT_MUL_EQ(results[1].damage[0], Q_4_12(2), results[1].damage[1]);
+    }
+}
+#endif

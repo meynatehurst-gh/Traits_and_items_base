@@ -1522,8 +1522,16 @@
 	callnative BS_RestoreSavedMove
 	.endm
 
-    .macro trydefiantrattled
-    callnative BS_TryDefiantRattled
+    .macro trydefiant
+    callnative BS_TryDefiant
+    .endm
+
+	.macro cleardefiant
+    callnative BS_ClearDefiant
+    .endm
+
+    .macro tryrattled
+    callnative BS_TryRattled
     .endm
 
     .macro tryadrenalineorb

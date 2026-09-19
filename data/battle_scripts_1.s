@@ -257,6 +257,23 @@ BattleScript_DefiantActivates::
 	trybattlerstatchange BS_SCRIPTING, STAT_CHANGE_SECOND_QUEUE
 	return
 
+BattleScript_CompetitiveActivates::
+	call BattleScript_AbilityPopUp
+	trybattlerstatchange BS_SCRIPTING, STAT_CHANGE_SECOND_QUEUE
+	return
+
+BattleScript_DefiantCompetitiveActivates::
+	call BattleScript_AbilityPopUp
+	pause B_WAIT_TIME_LONG
+	call BattleScript_AbilityPopUp
+	trybattlerstatchange BS_SCRIPTING, STAT_CHANGE_SECOND_QUEUE
+	return
+
+BattleScript_RattledActivates::
+	call BattleScript_AbilityPopUp
+	trybattlerstatchange BS_SCRIPTING, STAT_CHANGE_SECOND_QUEUE
+	return
+
 BattleScript_AdrenalineOrbActivates::
 	playanimation BS_SCRIPTING, B_ANIM_HELD_ITEM_EFFECT
 	trybattlerstatchange BS_SCRIPTING, STAT_CHANGE_SECOND_QUEUE
@@ -309,8 +326,10 @@ BattleScript_IncreaseStatChangeMessage::
 BattleScript_DecreaseStatChangeMessage::
 	printfromtable gStatDownStringIds
 	waitmessage B_WAIT_TIME_LONG
-	trydefiantrattled
+	trydefiant
+	tryrattled
 	tryadrenalineorb
+	@cleardefiant
 	return
 
 BattleScript_DecreaseStatChangeMessageMinStat::

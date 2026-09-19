@@ -145,11 +145,10 @@ SINGLE_BATTLE_TEST("Spicy Spray burns the attacker (Traits)")
         ASSUME(MoveMakesContact(MOVE_SCRATCH));
         ASSUME(!MoveMakesContact(MOVE_SWIFT));
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SCOVILLAIN) { Item(ITEM_SCOVILLAINITE); }
+        OPPONENT(SPECIES_SCOVILLAIN) { Ability(ABILITY_INSOMNIA); Innates(ABILITY_SPICY_SPRAY); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_CELEBRATE, gimmick: GIMMICK_MEGA); MOVE(player, move); }
+        TURN { MOVE(opponent, MOVE_CELEBRATE); MOVE(player, move); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_MEGA_EVOLUTION, opponent);
         ABILITY_POPUP(opponent, ABILITY_SPICY_SPRAY);
         ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_BRN, player);
         STATUS_ICON(player, burn: TRUE);
@@ -165,12 +164,11 @@ SINGLE_BATTLE_TEST("Spicy Spray burns the attacker even if the attacker is behin
         ASSUME(MoveMakesContact(MOVE_SCRATCH));
         ASSUME(!MoveMakesContact(MOVE_SWIFT));
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SCOVILLAIN) { Item(ITEM_SCOVILLAINITE); }
+        OPPONENT(SPECIES_SCOVILLAIN) { Ability(ABILITY_INSOMNIA); Innates(ABILITY_SPICY_SPRAY); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_CELEBRATE, gimmick: GIMMICK_MEGA); MOVE(player, MOVE_SUBSTITUTE); }
+        TURN { MOVE(opponent, MOVE_CELEBRATE); MOVE(player, MOVE_SUBSTITUTE); }
         TURN { MOVE(opponent, MOVE_CELEBRATE); MOVE(player, move); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_MEGA_EVOLUTION, opponent);
         ABILITY_POPUP(opponent, ABILITY_SPICY_SPRAY);
         STATUS_ICON(player, burn: TRUE);
     }
@@ -185,11 +183,10 @@ SINGLE_BATTLE_TEST("Spicy Spray does not burn the attacker if the defender is be
         ASSUME(MoveMakesContact(MOVE_SCRATCH));
         ASSUME(!MoveMakesContact(MOVE_SWIFT));
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SCOVILLAIN) { Item(ITEM_SCOVILLAINITE); }
+        OPPONENT(SPECIES_SCOVILLAIN) { Ability(ABILITY_INSOMNIA); Innates(ABILITY_SPICY_SPRAY); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_SUBSTITUTE, gimmick: GIMMICK_MEGA); MOVE(player, move); }
+        TURN { MOVE(opponent, MOVE_SUBSTITUTE); MOVE(player, move); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_MEGA_EVOLUTION, opponent);
         NONE_OF {
             ABILITY_POPUP(opponent, ABILITY_SPICY_SPRAY);
             ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_BRN, player);
@@ -207,11 +204,10 @@ SINGLE_BATTLE_TEST("Spicy Spray burns the attacker even if the attacker has Shee
         ASSUME(MoveMakesContact(MOVE_CRUNCH));
         ASSUME(!MoveMakesContact(MOVE_ICE_BEAM));
         PLAYER(SPECIES_FERALIGATR) { Ability(ABILITY_SHEER_FORCE); }
-        OPPONENT(SPECIES_SCOVILLAIN) { Item(ITEM_SCOVILLAINITE); }
+        OPPONENT(SPECIES_SCOVILLAIN) { Ability(ABILITY_INSOMNIA); Innates(ABILITY_SPICY_SPRAY); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_CELEBRATE, gimmick: GIMMICK_MEGA); MOVE(player, move); }
+        TURN { MOVE(opponent, MOVE_CELEBRATE); MOVE(player, move); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_MEGA_EVOLUTION, opponent);
         ABILITY_POPUP(opponent, ABILITY_SPICY_SPRAY);
         ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_BRN, player);
         STATUS_ICON(player, burn: TRUE);
@@ -222,11 +218,10 @@ SINGLE_BATTLE_TEST("Spicy Spray burns the attacker even if the defender faints (
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SCOVILLAIN) { Item(ITEM_SCOVILLAINITE); HP(1); }
+        OPPONENT(SPECIES_SCOVILLAIN) { Ability(ABILITY_INSOMNIA); Innates(ABILITY_SPICY_SPRAY); HP(1); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_CELEBRATE, gimmick: GIMMICK_MEGA); MOVE(player, MOVE_SCRATCH); }
+        TURN { MOVE(opponent, MOVE_CELEBRATE); MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_MEGA_EVOLUTION, opponent);
         ABILITY_POPUP(opponent, ABILITY_SPICY_SPRAY);
         ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_BRN, player);
         STATUS_ICON(player, burn: TRUE);
@@ -238,11 +233,10 @@ SINGLE_BATTLE_TEST("Spicy Spray burns the attacker even if the defender behind a
     GIVEN {
         ASSUME(IsSoundMove(MOVE_HYPER_VOICE));
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SCOVILLAIN) { Item(ITEM_SCOVILLAINITE); }
+        OPPONENT(SPECIES_SCOVILLAIN) { Ability(ABILITY_INSOMNIA); Innates(ABILITY_SPICY_SPRAY); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_SUBSTITUTE, gimmick: GIMMICK_MEGA); MOVE(player, MOVE_HYPER_VOICE); }
+        TURN { MOVE(opponent, MOVE_SUBSTITUTE); MOVE(player, MOVE_HYPER_VOICE); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_MEGA_EVOLUTION, opponent);
         ABILITY_POPUP(opponent, ABILITY_SPICY_SPRAY);
         STATUS_ICON(player, burn: TRUE);
     }
@@ -254,14 +248,13 @@ SINGLE_BATTLE_TEST("Spicy Spray does not activate if Future Sight attacker is no
         ASSUME(GetMoveEffect(MOVE_FUTURE_SIGHT) == EFFECT_FUTURE_SIGHT);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SCOVILLAIN) { Item(ITEM_SCOVILLAINITE); }
+        OPPONENT(SPECIES_SCOVILLAIN) { Ability(ABILITY_INSOMNIA); Innates(ABILITY_SPICY_SPRAY); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_CELEBRATE, gimmick: GIMMICK_MEGA); MOVE(player, MOVE_FUTURE_SIGHT); }
+        TURN { MOVE(opponent, MOVE_CELEBRATE); MOVE(player, MOVE_FUTURE_SIGHT); }
         TURN { SWITCH(player, 1); }
         TURN {}
         TURN {}
     } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_MEGA_EVOLUTION, opponent);
         NONE_OF {
             ABILITY_POPUP(opponent, ABILITY_SPICY_SPRAY);
             ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_BRN, player);

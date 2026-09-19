@@ -1159,9 +1159,9 @@ bool32 ShouldDefiantCompetitiveActivate(enum BattlerId battler)
     if (gBattleStruct->ignoreDefiant)
         return FALSE;
 
-    if ((!BattlerHasTrait(battler, ABILITY_DEFIANT)
+    if ((!BattlerHasTrait(battler, ABILITY_DEFIANT) || gBattleStruct->defiantActivated[battler]
      || CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_EQUAL))
-     && (!BattlerHasTrait(battler, ABILITY_COMPETITIVE)
+    && (!BattlerHasTrait(battler, ABILITY_COMPETITIVE) || gBattleStruct->competitiveActivated[battler]
      || CompareStat(battler, STAT_SPATK, MAX_STAT_STAGE, CMP_EQUAL)))
         return FALSE;
 
