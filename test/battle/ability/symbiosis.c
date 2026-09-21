@@ -713,7 +713,7 @@ DOUBLE_BATTLE_TEST("Symbiosis does not transfer its item after an ally's Eject B
         MESSAGE("Wobbuffet is switched out with the Eject Button!");
         NOT ABILITY_POPUP(playerRight, ABILITY_SYMBIOSIS);
     } THEN {
-        EXPECT_EQ(playerRight->item, ITEM_POTION);
+        EXPECT_EQ(playerRight->items[1], ITEM_POTION);
     }
 }
 
@@ -736,7 +736,7 @@ DOUBLE_BATTLE_TEST("Symbiosis does not transfer its item after an ally's Eject P
         MESSAGE("Wobbuffet is switched out with the Eject Pack!");
         NOT ABILITY_POPUP(playerRight, ABILITY_SYMBIOSIS);
     } THEN {
-        EXPECT_EQ(playerRight->item, ITEM_POTION);
+        EXPECT_EQ(playerRight->items[1], ITEM_POTION);
     }
 }
 
@@ -761,8 +761,8 @@ DOUBLE_BATTLE_TEST("Symbiosis triggers after an ally's Cheek Pouch activates (It
         HP_BAR(playerLeft);
         ABILITY_POPUP(playerRight, ABILITY_SYMBIOSIS);
     } THEN {
-        EXPECT_EQ(playerLeft->item, ITEM_POTION);
-        EXPECT_EQ(playerRight->item, ITEM_NONE);
+        EXPECT_EQ(playerLeft->items[1], ITEM_POTION);
+        EXPECT_EQ(playerRight->items[1], ITEM_NONE);
     }
 }
 #endif

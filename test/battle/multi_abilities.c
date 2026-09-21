@@ -1259,12 +1259,12 @@ SINGLE_BATTLE_TEST("Multi - ABILITYEFFECT_ENDTURN item Harvest and Pickup can wo
         TURN { MOVE(opponent, MOVE_POISON_STING); }
         TURN { }
     } SCENE {
-        MESSAGE("The opposing Ninetales's Drought intensified the sun's rays!");
+        MESSAGE("The sunlight turned harsh!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_POISON_STING, player);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, opponent);
         MESSAGE("The opposing Ninetales's Pecha Berry cured its poison!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, player);
         MESSAGE("Exeggutor restored its health using its Sitrus Berry!");
         HP_BAR(player);
         ABILITY_POPUP(player, ABILITY_HARVEST);
@@ -1295,11 +1295,11 @@ WILD_BATTLE_TEST("Multi - ABILITYEFFECT_ENDTURN Ball Fetch does not conflict wit
     } WHEN {
         TURN { USE_ITEM(player, ITEM_GREAT_BALL, WITH_RNG(RNG_BALLTHROW_SHAKE, MAX_u16) ); MOVE(opponent, MOVE_SCRATCH);}
     } SCENE {
-        MESSAGE("The wild Ninetales's Drought intensified the sun's rays!");
+        MESSAGE("The sunlight turned harsh!");
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         MESSAGE("The Normal Gem strengthened the wild Ninetales's power!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, player);
         MESSAGE("Yamper restored its health using its Sitrus Berry!");
         HP_BAR(player);
         if (ability == ABILITY_HARVEST)
@@ -1337,11 +1337,11 @@ WILD_BATTLE_TEST("Multi - ABILITYEFFECT_ENDTURN Harvest and Pickup take priority
     } WHEN {
         TURN { USE_ITEM(player, ITEM_GREAT_BALL, WITH_RNG(RNG_BALLTHROW_SHAKE, MAX_u16) ); MOVE(opponent, MOVE_SCRATCH);}
     } SCENE {
-        MESSAGE("The wild Ninetales's Drought intensified the sun's rays!");
+        MESSAGE("The sunlight turned harsh!");
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         MESSAGE("The Normal Gem strengthened the wild Ninetales's power!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, player);
         MESSAGE("Yamper restored its health using its Sitrus Berry!");
         HP_BAR(player);
         if (ability == ABILITY_HARVEST)
@@ -1376,12 +1376,12 @@ SINGLE_BATTLE_TEST("Multi - ABILITYEFFECT_ENDTURN item Harvest and Pickup takes 
     } WHEN {
         TURN { MOVE(player, MOVE_POISON_STING); MOVE(opponent, MOVE_SCRATCH);}
     } SCENE {
-        MESSAGE("The opposing Ninetales's Drought intensified the sun's rays!");
+        MESSAGE("The sunlight turned harsh!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_POISON_STING, player);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, opponent);
         MESSAGE("The opposing Ninetales's Pecha Berry cured its poison!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, player);
         MESSAGE("Exeggutor restored its health using its Sitrus Berry!");
         HP_BAR(player);
         ABILITY_POPUP(player, ABILITY_HARVEST);

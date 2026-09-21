@@ -12,17 +12,17 @@ SINGLE_BATTLE_TEST("Multi - IsOnSwitchInFirstTurnActivation")
         TURN { }
     } SCENE {
         // Since only one item activates per timing window, both battlers activate one item on initial switch-in then one more after their turns.
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, player);
         MESSAGE("Wobbuffet restored its health using its Oran Berry!");
         HP_BAR(player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("Using Berserk Gene, the Attack of the opposing Wobbuffet rose sharply!");
+        MESSAGE("The Berserk Gene sharply boosted the opposing Wobbuffet's Attack!");
         ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_CONFUSION, opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, player);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, player);
         MESSAGE("Wobbuffet's Pecha Berry cured its poison!");
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, opponent);
         MESSAGE("The opposing Wobbuffet's Persim Berry snapped it out of its confusion!");
     }
 }
@@ -240,22 +240,19 @@ SINGLE_BATTLE_TEST("Multi - OnTargetAfterHit Air Balloon popping has the highest
         ANIMATION(ANIM_TYPE_MOVE, MOVE_AQUA_JET, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("Using Absorb Bulb, the Sp. Atk of the opposing Wobbuffet rose!");
+        MESSAGE("The Absorb Bulb boosted the opposing Wobbuffet's Sp. Atk!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
         HP_BAR(opponent);
         MESSAGE("The opposing Wobbuffet was hurt by Wobbuffet's Rocky Helmet!");
         //switch
         ANIMATION(ANIM_TYPE_MOVE, MOVE_AQUA_JET, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("Using Luminous Moss, the Sp. Def of the opposing Wobbuffet rose!");
+        MESSAGE("The Luminous Moss boosted the opposing Wobbuffet's Sp. Def!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_AQUA_JET, player);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         HP_BAR(player);
         MESSAGE("Wobbuffet was hurt by the opposing Wobbuffet's Rocky Helmet!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
         HP_BAR(opponent);
         MESSAGE("The opposing Wobbuffet was hurt by Wobbuffet's Rocky Helmet!");
     } THEN {
@@ -279,26 +276,26 @@ SINGLE_BATTLE_TEST("Multi - OnTargetAfterHit general item check")
         TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_AQUA_JET, player);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, opponent);
         HP_BAR(player);
         MESSAGE("Wobbuffet was hurt by the opposing Wobbuffet's Jaboca Berry!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_AQUA_JET, opponent);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
-        MESSAGE("Using Absorb Bulb, the Sp. Atk of Wobbuffet rose!");
+        MESSAGE("The Absorb Bulb boosted Wobbuffet's Sp. Atk!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_ICY_WIND, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("Using Snowball, the Attack of the opposing Wobbuffet rose!");
+        MESSAGE("The Snowball boosted the opposing Wobbuffet's Attack!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_THUNDERSHOCK, opponent);     
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
-        MESSAGE("Using Cell Battery, the Attack of Wobbuffet rose!");
+        MESSAGE("The Cell Battery boosted Wobbuffet's Attack!");
         //switch
         ANIMATION(ANIM_TYPE_MOVE, MOVE_ICY_WIND, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("Using Snowball, the Attack of the opposing Wobbuffet rose!");
+        MESSAGE("The Snowball boosted the opposing Wobbuffet's Attack!");
     } THEN {
         EXPECT(player->items[0] == ITEM_NONE);
         EXPECT(player->item == ITEM_NONE);

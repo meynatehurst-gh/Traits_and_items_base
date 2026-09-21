@@ -409,7 +409,7 @@ SINGLE_BATTLE_TEST("Poison Puppeteer consumes its pending target after triggerin
             ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_CONFUSION, opponent);
         }
     } THEN {
-        EXPECT_EQ(opponent->item, ITEM_NONE);
+        EXPECT_EQ(opponent->items[1], ITEM_NONE);
         EXPECT(opponent->status1 & STATUS1_POISON);
         EXPECT(opponent->volatiles.confusionTurns == 0);
     }

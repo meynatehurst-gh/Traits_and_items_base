@@ -324,7 +324,7 @@ SINGLE_BATTLE_TEST("Mirror Herb does not activate or get consumed if no copied s
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SWORDS_DANCE, opponent);
         NOT ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
     } THEN {
-        EXPECT_EQ(player->item, ITEM_MIRROR_HERB);
+        EXPECT_EQ(player->items[1], ITEM_MIRROR_HERB);
         EXPECT_EQ(player->statStages[STAT_ATK], MAX_STAT_STAGE);
     }
 }
@@ -344,8 +344,8 @@ SINGLE_BATTLE_TEST("Mirror Herb does not copy stat increases gained via Mirror H
     } THEN {
         EXPECT_EQ(player->statStages[STAT_ATK], DEFAULT_STAT_STAGE + 2);
         EXPECT_EQ(opponent->statStages[STAT_ATK], DEFAULT_STAT_STAGE + 2);
-        EXPECT_EQ(player->item, ITEM_MIRROR_HERB);
-        EXPECT_EQ(opponent->item, ITEM_NONE);
+        EXPECT_EQ(player->items[1], ITEM_MIRROR_HERB);
+        EXPECT_EQ(opponent->items[1], ITEM_NONE);
     }
 }
 

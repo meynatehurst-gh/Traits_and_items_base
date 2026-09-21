@@ -175,7 +175,7 @@ SINGLE_BATTLE_TEST("Stuff Cheeks raises Defense by 2 stages after consuming the 
 SINGLE_BATTLE_TEST("Stuff Cheeks can be used even if Unnerve is present (Items)")
 {
     GIVEN {
-        PLAYER(SPECIES_SKWOVET) { Items(ITEM_LIECHI_BERRY, ITEM_PECHA_BERRY); }
+        PLAYER(SPECIES_SKWOVET) { Items(ITEM_PECHA_BERRY, ITEM_LIECHI_BERRY); }
         OPPONENT(SPECIES_EKANS) { Ability(ABILITY_UNNERVE); }
     } WHEN {
         TURN { MOVE(player, MOVE_STUFF_CHEEKS); }
@@ -188,7 +188,7 @@ SINGLE_BATTLE_TEST("Stuff Cheeks can be used even if Unnerve is present (Items)"
 SINGLE_BATTLE_TEST("Stuff Cheeks can be used even if Magic Room is active (Items)")
 {
     GIVEN {
-        PLAYER(SPECIES_SKWOVET) { Items(ITEM_LIECHI_BERRY, ITEM_GREAT_BALL); }
+        PLAYER(SPECIES_SKWOVET) { Items(ITEM_GREAT_BALL, ITEM_LIECHI_BERRY); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN {

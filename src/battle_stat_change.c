@@ -661,14 +661,16 @@ static bool32 IsClearAmuletBlocked(struct BattleCalcValues *cv, struct StatChang
     if (st->certain)
         return FALSE;
 
-    if (!BattlerHasHoldItemEffect(cv->battlerDef, HOLD_EFFECT_CLEAR_AMULET, TRUE))
+    enum Item holditem = GetBattlerHoldItemWithEffect(cv->battlerDef, HOLD_EFFECT_CLEAR_AMULET, TRUE);
+
+    if (holditem == ITEM_NONE)
         return FALSE;
 
     if (!st->onlyChecking)
     {
         st->script = BattleScript_ItemNoStatLoss;
         gBattleScripting.battler = cv->battlerDef;
-        gLastUsedItem = gBattleMons[cv->battlerDef].item;
+        gLastUsedItem = holditem;
         MarkStatsAsDone(st, NUM_BATTLE_STATS);
         RecordItemEffectBattle(cv->battlerDef, HOLD_EFFECT_CLEAR_AMULET);
     }

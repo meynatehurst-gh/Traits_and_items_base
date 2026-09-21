@@ -332,7 +332,7 @@ SINGLE_BATTLE_TEST("Blunder Policy will never trigger if an OHKO move fails (Ite
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
         }
     } THEN {
-        EXPECT(player->item == ITEM_BLUNDER_POLICY);
+        EXPECT(player->items[1] == ITEM_BLUNDER_POLICY);
         EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE);
     }
 }
@@ -352,7 +352,7 @@ SINGLE_BATTLE_TEST("Blunder Policy will never trigger if the move misses due to 
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
         }
     } THEN {
-        EXPECT(player->item == ITEM_BLUNDER_POLICY);
+        EXPECT(player->items[1] == ITEM_BLUNDER_POLICY);
         EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE);
     }
 }
@@ -382,7 +382,7 @@ SINGLE_BATTLE_TEST("Blunder Policy state is cleared between actions if it could 
         }
         ANIMATION(ANIM_TYPE_MOVE, MOVE_CURSE, player);
     } THEN {
-        EXPECT(player->item == ITEM_BLUNDER_POLICY);
+        EXPECT(player->items[1] == ITEM_BLUNDER_POLICY);
         EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE + 5);
     }
 }
@@ -401,7 +401,7 @@ SINGLE_BATTLE_TEST("Blunder Policy activates if the first strike of Triple Kick 
         NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_TRIPLE_KICK, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
     } THEN {
-        EXPECT(player->item == ITEM_NONE);
+        EXPECT(player->items[1] == ITEM_NONE);
         EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE + 2);
     }
 }
@@ -424,7 +424,7 @@ SINGLE_BATTLE_TEST("Blunder Policy does not activate if Triple Kick misses after
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
         }
     } THEN {
-        EXPECT(player->item == ITEM_BLUNDER_POLICY);
+        EXPECT(player->items[1] == ITEM_BLUNDER_POLICY);
         EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE);
         EXPECT_EQ(player->ability, ABILITY_LINGERING_AROMA);
     }
@@ -444,7 +444,7 @@ SINGLE_BATTLE_TEST("Blunder Policy activates if the first strike of Population B
         NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_POPULATION_BOMB, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
     } THEN {
-        EXPECT(player->item == ITEM_NONE);
+        EXPECT(player->items[1] == ITEM_NONE);
         EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE + 2);
     }
 }
@@ -467,7 +467,7 @@ SINGLE_BATTLE_TEST("Blunder Policy does not activate if Population Bomb misses a
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
         }
     } THEN {
-        EXPECT(player->item == ITEM_BLUNDER_POLICY);
+        EXPECT(player->items[1] == ITEM_BLUNDER_POLICY);
         EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE);
         EXPECT_EQ(player->ability, ABILITY_LINGERING_AROMA);
     }
@@ -498,7 +498,7 @@ DOUBLE_BATTLE_TEST("Blunder Policy activates for Dragon Darts if one target miss
         HP_BAR(finalTarget);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, playerLeft);
     } THEN {
-        EXPECT(playerLeft->item == ITEM_NONE);
+        EXPECT(playerLeft->items[1] == ITEM_NONE);
         EXPECT_EQ(playerLeft->statStages[STAT_SPEED], DEFAULT_STAT_STAGE + 2);
         EXPECT_EQ(chosenTarget->hp, chosenTarget->maxHP);
         EXPECT_LT(finalTarget->hp, finalTarget->maxHP);

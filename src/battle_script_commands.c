@@ -2664,7 +2664,7 @@ void SetMoveEffect(enum BattlerId battlerAtk, enum BattlerId effectBattler, enum
         for (i = 0; i < MAX_MON_ITEMS; i++)
         {
             if (((gItemsInfo[gBattleMons[effectBattler].items[i]].pocket == POCKET_BERRIES) //Gather all valid item slots
-             || (B_INCINERATE_GEMS >= GEN_6 && BattlerHasHoldItemEffect(effectBattler, HOLD_EFFECT_GEMS, FALSE)))
+             || (B_INCINERATE_GEMS >= GEN_6 && GetItemHoldEffect(gBattleMons[effectBattler].items[i]) == HOLD_EFFECT_GEMS))
              && !BattlerHasTrait(effectBattler, ABILITY_STICKY_HOLD))
         {
                 if (targetableSlots[0] != MAX_MON_ITEMS)
@@ -3494,7 +3494,6 @@ void SetMoveEffect(enum BattlerId battlerAtk, enum BattlerId effectBattler, enum
     case MOVE_EFFECT_ITEM_MESSAGE:
         if (!gBattleStruct->unableToUseMove)
         {
-            gLastUsedItem = gBattleMons[effectBattler].item;
             BattleScriptPush(battleScript);
 
             if (effectBattler == battlerAtk)
@@ -8697,7 +8696,6 @@ static void Cmd_tryactivateitem(void)
         ItemBattleEffects(battler, 0, IsOnStatusChangeActivation);
         break;
     case ACTIVATION_ON_STUFF_CHEEKS:
-        gLastUsedItem = gBattleMons[battler].item;
         gBattleScripting.overrideBerryRequirements = 1;
         GetBattlerPartyState(battler)->ateBerry = TRUE;
         ItemBattleEffects(battler, 0, IsOnBerryActivation);
@@ -14553,12 +14551,12 @@ void BS_LastUsedItemToBattlerBerry(void) //For Stuff Cheeks
     }
     if (targetableSlots[0] != MAX_MON_ITEMS)
     {    
+        
         slot = gLastItemSlot = GetSlot(targetableSlots, index);
-        gLastUsedItem = GetSlotHoldItem(battler, slot, TRUE);
+        gLastUsedItem = GetSlotHoldItem(battler, slot, FALSE);
     }
     else
         gLastUsedItem = ITEM_NONE;
-
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
@@ -14641,4 +14639,32 @@ void BS_SetStatChangeBeastBoost(void)
 
     SetStatChange(battler, GetHighestStatId(battler), NumFaintedBattlersByAttacker(battler));
     gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_SetPoltergeistMessage(void)
+{
+    NATIVE_ARGS();
+
+    u32 index = 0, slot, targetableSlots[MAX_MON_ITEMS];
+    
+    targetableSlots[0] = MAX_MON_ITEMS; // Invalid value for first slot if no valid slots found
+
+    for (u32 i = 0; i < MAX_MON_ITEMS; i++) //Gather all stealable item slots
+    {
+        if (gBattleMons[gBattlerTarget].items[i] != ITEM_NONE)
+        {
+            if (targetableSlots[0] != MAX_MON_ITEMS)
+                index++;
+            targetableSlots[index] = i;
+        }
+    }
+
+    if (!(targetableSlots[0] == MAX_MON_ITEMS)) //No valid slots found
+    {    
+        slot = gLastItemSlot = GetSlot(targetableSlots, index);
+
+        PREPARE_ITEM_BUFFER(gBattleTextBuff1, GetSlotHoldItem(gBattlerTarget, slot, TRUE));
+        gLastUsedItem = GetSlotHoldItem(gBattlerTarget, slot, TRUE);
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
 }

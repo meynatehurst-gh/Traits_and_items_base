@@ -421,7 +421,7 @@ SINGLE_BATTLE_TEST("Guard Dog raises Attack before Adrenaline Orb when Intimidat
     } THEN {
         EXPECT_EQ(player->statStages[STAT_ATK], DEFAULT_STAT_STAGE + 1);
         EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE + 1);
-        EXPECT_EQ(player->item, ITEM_NONE);
+        EXPECT_EQ(player->items[1], ITEM_NONE);
     }
 }
 

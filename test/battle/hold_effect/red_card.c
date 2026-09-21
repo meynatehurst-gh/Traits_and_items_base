@@ -789,7 +789,7 @@ SINGLE_BATTLE_TEST("Red Card does not activate if attacker faints from recoil (I
             MESSAGE("The opposing Wobbuffet held up its Red Card against Wobbuffet!");
         }
     } THEN {
-        EXPECT_EQ(opponent->item, ITEM_RED_CARD);
+        EXPECT_EQ(opponent->items[1], ITEM_RED_CARD);
     }
 }
 

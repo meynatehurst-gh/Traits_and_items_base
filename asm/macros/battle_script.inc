@@ -2166,3 +2166,7 @@
     callnative BS_SetStatChangeBeastBoost
     .byte \battler
     .endm
+
+	.macro setpoltergeistmessage
+	callnative BS_SetPoltergeistMessage
+	.endm

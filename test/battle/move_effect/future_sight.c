@@ -628,7 +628,7 @@ SINGLE_BATTLE_TEST("Future Sight does not trigger Red Card (Items)")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FUTURE_SIGHT, player);
         NOT ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
     } THEN {
-        EXPECT_EQ(opponent->item, ITEM_RED_CARD);
+        EXPECT_EQ(opponent->items[1], ITEM_RED_CARD);
     }
 }
 
@@ -647,7 +647,7 @@ SINGLE_BATTLE_TEST("Future Sight does not trigger Eject Button (Items)")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FUTURE_SIGHT, player);
         NOT ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
     } THEN {
-        EXPECT_EQ(opponent->item, ITEM_EJECT_BUTTON);
+        EXPECT_EQ(opponent->items[1], ITEM_EJECT_BUTTON);
     }
 }
 
@@ -666,7 +666,7 @@ SINGLE_BATTLE_TEST("Future Sight does not trigger Rowap Berry (Items)")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FUTURE_SIGHT, player);
         NOT ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, opponent);
     } THEN {
-        EXPECT_EQ(opponent->item, ITEM_ROWAP_BERRY);
+        EXPECT_EQ(opponent->items[1], ITEM_ROWAP_BERRY);
     }
 }
 #endif

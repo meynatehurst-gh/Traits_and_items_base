@@ -369,7 +369,7 @@ SINGLE_BATTLE_TEST("Air Balloon pops if a damaging move hits the holder's Substi
         ANIMATION(ANIM_TYPE_MOVE, MOVE_EMBER, opponent);
         MESSAGE("Wobbuffet's Air Balloon popped!");
     } THEN {
-        EXPECT_EQ(player->item, ITEM_NONE);
+        EXPECT_EQ(player->items[1], ITEM_NONE);
     }
 }
 
@@ -408,7 +408,7 @@ SINGLE_BATTLE_TEST("Air Balloon pops when the holder faints from a damaging move
         MESSAGE("Wobbuffet's Air Balloon popped!");
         MESSAGE("Wobbuffet fainted!");
     } THEN {
-        EXPECT_EQ(player->item, ITEM_NONE);
+        EXPECT_EQ(player->items[1], ITEM_NONE);
     }
 }
 #endif

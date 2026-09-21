@@ -1107,8 +1107,8 @@ SINGLE_BATTLE_TEST("Pickpocket can steal the attacker's Air Balloon (Items)")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ABILITY_POPUP(opponent, ABILITY_PICKPOCKET);
     } THEN {
-        EXPECT_EQ(player->item, ITEM_NONE);
-        EXPECT_EQ(opponent->item, ITEM_AIR_BALLOON);
+        EXPECT_EQ(player->items[1], ITEM_NONE);
+        EXPECT_EQ(opponent->items[1], ITEM_AIR_BALLOON);
     }
 }
 #endif

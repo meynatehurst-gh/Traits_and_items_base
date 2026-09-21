@@ -5636,6 +5636,15 @@ static void HandleEndTurn_FinishBattle(void)
             gBattleMons[i].species = SPECIES_NONE;
         }
 
+        // Clear battle mon ability to avoid potential bug going from double to single battle and
+        // the ability not being cleared for battler slots not refreshed in single. (Multi)
+        for (enum BattlerId i = 0; i < MAX_BATTLERS_COUNT; i++)
+        {
+            gBattleMons[i].ability = ABILITY_NONE;
+            for (u32 j = 0; j < MAX_MON_INNATES; j++)
+                gBattleMons[i].innates[j] = ABILITY_NONE;
+        }
+
         // Set Battle Controllers to BATTLE_CONTROLLER_NONE
         for (enum BattlerId i = 0; i < MAX_BATTLERS_COUNT; i++)
         {

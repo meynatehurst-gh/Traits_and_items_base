@@ -435,7 +435,6 @@ SINGLE_BATTLE_TEST("Weather Ball doubles its power and turns to a Fire-type move
 
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_WEATHER_BALL) == EFFECT_WEATHER_BALL);
-        ASSUME(GetSpeciesType(SPECIES_PINSIR, 0) == TYPE_BUG || GetSpeciesType(SPECIES_PINSIR, 1) == TYPE_BUG);
         PLAYER(SPECIES_MEGANIUM) { Ability(ABILITY_OVERGROW); Innates(ABILITY_MEGA_SOL); }
         OPPONENT(SPECIES_MEGANIUM){HP(9999); MaxHP(9999);}
     } WHEN {
@@ -444,9 +443,9 @@ SINGLE_BATTLE_TEST("Weather Ball doubles its power and turns to a Fire-type move
         ANIMATION(ANIM_TYPE_MOVE, MOVE_WEATHER_BALL, player);
         HP_BAR(opponent, captureDamage: &damage[0]);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_WEATHER_BALL, opponent);
-        HP_BAR(opponent, captureDamage: &damage[1]);
+        HP_BAR(player, captureDamage: &damage[1]);
     } THEN {
-        EXPECT_MUL_EQ(damage[1], Q_4_12(2.0), damage[0]); // double base power + type effectiveness + sun 50% boost
+        EXPECT_MUL_EQ(damage[1], Q_4_12(6.0), damage[0]); // double base power + type effectiveness + sun 50% boost
     }
 }
 

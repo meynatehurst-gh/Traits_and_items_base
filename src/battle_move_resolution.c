@@ -864,7 +864,6 @@ static bool32 HandleMoveTargetRedirection(struct BattleCalcValues *cv, enum Move
                 && !IsAbilityAndRecord(cv->battlerAtk, ABILITY_PROPELLER_TAIL)
                 && !IsAbilityAndRecord(cv->battlerAtk, ABILITY_STALWART))
             {
-                DebugPrintf("Redirector: %d\n", battler);
                 redirectorOrderNum = GetBattlerTurnOrderNum(battler);
             }
         }
@@ -4229,7 +4228,7 @@ static inline bool32 TryEjectPack(enum BattlerId battlerAtk, enum BattlerId ejec
         return FALSE;
 
     gBattleScripting.battler = ejectPackBattler;
-    gLastUsedItem = gBattleMons[ejectPackBattler].item;
+    gLastUsedItem = GetBattlerHoldItemWithEffect(ejectPackBattler, HOLD_EFFECT_EJECT_PACK, TRUE);
     gBattleStruct->battlerState[ejectPackBattler].usedEjectItem = TRUE;
     gSpecialStatuses[ejectPackBattler].queuedSwitch = QUEUED_SWITCH_OPEN_PARTY_SCREEN;
     BattleScriptCall(BattleScript_EjectItemActivates);

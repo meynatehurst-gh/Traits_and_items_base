@@ -86,7 +86,7 @@ SINGLE_BATTLE_TEST("Water Veil lets Rawst and Lum Berries cure Mold Breaker burn
         STATUS_ICON(player, burn: FALSE);
         NOT ABILITY_POPUP(player, ABILITY_WATER_VEIL);
     } THEN {
-        EXPECT_EQ(player->item, ITEM_NONE);
+        EXPECT_EQ(player->items[1], ITEM_NONE);
         EXPECT_EQ(player->status1, STATUS1_NONE);
     }
 }

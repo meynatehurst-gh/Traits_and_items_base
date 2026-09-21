@@ -1576,7 +1576,7 @@ SINGLE_BATTLE_TEST("Fling - Mental Herb effect should not remove the target's he
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FLING, player);
         HP_BAR(opponent);
     } THEN {
-        EXPECT_EQ(opponent->item, ITEM_RAZOR_CLAW);
+        EXPECT_EQ(opponent->items[1], ITEM_RAZOR_CLAW);
     }
 }
 
@@ -1596,7 +1596,7 @@ SINGLE_BATTLE_TEST("Fling - White Herb effect should not remove the target's hel
         HP_BAR(opponent);
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_ATK], DEFAULT_STAT_STAGE);
-        EXPECT_EQ(opponent->item, ITEM_RAZOR_CLAW);
+        EXPECT_EQ(opponent->items[1], ITEM_RAZOR_CLAW);
     }
 }
 #endif

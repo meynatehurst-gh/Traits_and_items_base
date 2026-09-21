@@ -536,8 +536,8 @@ SINGLE_BATTLE_TEST("Magician gets self-damage recoil after stealing Life Orb (It
         HP_BAR(player);
         MESSAGE("Delphox was hurt by the Life Orb!");
     } THEN {
-        EXPECT_EQ(player->item, ITEM_LIFE_ORB);
-        EXPECT_EQ(opponent->item, ITEM_NONE);
+        EXPECT_EQ(player->items[1], ITEM_LIFE_ORB);
+        EXPECT_EQ(opponent->items[1], ITEM_NONE);
     }
 }
 
@@ -564,7 +564,7 @@ DOUBLE_BATTLE_TEST("Magician prioritizes opponents over allies among valid targe
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SURF, playerLeft);
         ABILITY_POPUP(playerLeft, ABILITY_MAGICIAN);
     } THEN {
-        EXPECT_EQ(playerLeft->item, expectedItem);
+        EXPECT_EQ(playerLeft->items[1], expectedItem);
     }
 }
 
@@ -586,7 +586,7 @@ DOUBLE_BATTLE_TEST("Magician follows Trick Room order when choosing between foe 
         ABILITY_POPUP(playerLeft, ABILITY_MAGICIAN);
     } THEN {
         // Under Trick Room, the slower foe should be chosen first.
-        EXPECT_EQ(playerLeft->item, ITEM_ULTRA_BALL);
+        EXPECT_EQ(playerLeft->items[1], ITEM_ULTRA_BALL);
     }
 }
 
@@ -604,8 +604,8 @@ DOUBLE_BATTLE_TEST("Magician can steal from ally if no opponent is a valid targe
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SURF, playerLeft);
         ABILITY_POPUP(playerLeft, ABILITY_MAGICIAN);
     } THEN {
-        EXPECT_EQ(playerLeft->item, ITEM_POKE_BALL);
-        EXPECT_EQ(playerRight->item, ITEM_NONE);
+        EXPECT_EQ(playerLeft->items[1], ITEM_POKE_BALL);
+        EXPECT_EQ(playerRight->items[1], ITEM_NONE);
     }
 }
 
@@ -620,7 +620,7 @@ DOUBLE_BATTLE_TEST("Magician is blocked by Sticky Hold unless the target faints 
         ASSUME(GetMoveTarget(MOVE_SURF) == TARGET_FOES_AND_ALLY);
         PLAYER(SPECIES_DELPHOX) { Speed(1); Ability(ABILITY_MAGICIAN); }
         PLAYER(SPECIES_WOBBUFFET) { Speed(2); Items(ITEM_NONE, ITEM_POKE_BALL); }
-        OPPONENT(SPECIES_MUK) { Speed(4); HP(stickyHoldTargetFaints ? 1 : 600); Ability(ABILITY_STICKY_HOLD); Item(ITEM_GREAT_BALL); }
+        OPPONENT(SPECIES_MUK) { Speed(4); HP(stickyHoldTargetFaints ? 1 : 600); Ability(ABILITY_STICKY_HOLD); Items(ITEM_NONE, ITEM_GREAT_BALL); }
         OPPONENT(SPECIES_WOBBUFFET) { Speed(3); Items(ITEM_NONE, ITEM_ULTRA_BALL); }
     } WHEN {
         TURN { MOVE(playerLeft, MOVE_SURF); }
@@ -631,10 +631,10 @@ DOUBLE_BATTLE_TEST("Magician is blocked by Sticky Hold unless the target faints 
         else
             NOT ABILITY_POPUP(playerLeft, ABILITY_MAGICIAN);
     } THEN {
-        EXPECT_EQ(playerLeft->item, stickyHoldTargetFaints ? ITEM_GREAT_BALL : ITEM_NONE);
-        EXPECT_EQ(playerRight->item, ITEM_POKE_BALL);
-        EXPECT_EQ(opponentLeft->item, stickyHoldTargetFaints ? ITEM_NONE : ITEM_GREAT_BALL);
-        EXPECT_EQ(opponentRight->item, ITEM_ULTRA_BALL);
+        EXPECT_EQ(playerLeft->items[1], stickyHoldTargetFaints ? ITEM_GREAT_BALL : ITEM_NONE);
+        EXPECT_EQ(playerRight->items[1], ITEM_POKE_BALL);
+        EXPECT_EQ(opponentLeft->items[1], stickyHoldTargetFaints ? ITEM_NONE : ITEM_GREAT_BALL);
+        EXPECT_EQ(opponentRight->items[1], ITEM_ULTRA_BALL);
     }
 }
 
@@ -650,8 +650,8 @@ SINGLE_BATTLE_TEST("Magician does not activate with Fling (Items)")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FLING, player);
         NOT ABILITY_POPUP(player, ABILITY_MAGICIAN);
     } THEN {
-        EXPECT_EQ(player->item, ITEM_NONE);
-        EXPECT_EQ(opponent->item, ITEM_POKE_BALL);
+        EXPECT_EQ(player->items[1], ITEM_NONE);
+        EXPECT_EQ(opponent->items[1], ITEM_POKE_BALL);
     }
 }
 
@@ -667,8 +667,8 @@ SINGLE_BATTLE_TEST("Magician does not activate with Natural Gift (Items)")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_NATURAL_GIFT, player);
         NOT ABILITY_POPUP(player, ABILITY_MAGICIAN);
     } THEN {
-        EXPECT_EQ(player->item, ITEM_NONE);
-        EXPECT_EQ(opponent->item, ITEM_POKE_BALL);
+        EXPECT_EQ(player->items[1], ITEM_NONE);
+        EXPECT_EQ(opponent->items[1], ITEM_POKE_BALL);
     }
 }
 
@@ -686,8 +686,8 @@ SINGLE_BATTLE_TEST("Magician does not activate with Future Sight or Doom Desire 
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FUTURE_SIGHT, player);
         NOT ABILITY_POPUP(player, ABILITY_MAGICIAN);
     } THEN {
-        EXPECT_EQ(player->item, ITEM_NONE);
-        EXPECT_EQ(opponent->item, ITEM_POKE_BALL);
+        EXPECT_EQ(player->items[1], ITEM_NONE);
+        EXPECT_EQ(opponent->items[1], ITEM_POKE_BALL);
     }
 }
 
@@ -705,8 +705,8 @@ SINGLE_BATTLE_TEST("Magician activates after the last hit of a multi-hit move (I
         HP_BAR(opponent);
         ABILITY_POPUP(player, ABILITY_MAGICIAN);
     } THEN {
-        EXPECT_EQ(player->item, ITEM_POKE_BALL);
-        EXPECT_EQ(opponent->item, ITEM_NONE);
+        EXPECT_EQ(player->items[1], ITEM_POKE_BALL);
+        EXPECT_EQ(opponent->items[1], ITEM_NONE);
     }
 }
 
@@ -725,7 +725,7 @@ SINGLE_BATTLE_TEST("Magician steals before switching with U-turn (Items)")
         ABILITY_POPUP(player, ABILITY_MAGICIAN);
         SEND_IN_MESSAGE("Wynaut");
     } THEN {
-        EXPECT_EQ(opponent->item, ITEM_NONE);
+        EXPECT_EQ(opponent->items[1], ITEM_NONE);
     }
 }
 
@@ -743,8 +743,8 @@ SINGLE_BATTLE_TEST("Magician does not activate if user faints from Rocky Helmet 
         HP_BAR(player);
         NOT ABILITY_POPUP(player, ABILITY_MAGICIAN);
     } THEN {
-        EXPECT_EQ(player->item, ITEM_NONE);
-        EXPECT_EQ(opponent->item, ITEM_ROCKY_HELMET);
+        EXPECT_EQ(player->items[1], ITEM_NONE);
+        EXPECT_EQ(opponent->items[1], ITEM_ROCKY_HELMET);
     }
 }
 
@@ -760,11 +760,11 @@ SINGLE_BATTLE_TEST("Magician allows activation of stolen Throat Spray (Items)")
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_HYPER_VOICE, player);
         ABILITY_POPUP(player, ABILITY_MAGICIAN);
-        MESSAGE("Delphox stole the opposing Wobbuffet's Throat Spray! (Items)");
+        MESSAGE("Delphox stole the opposing Wobbuffet's Throat Spray!");
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
     } THEN {
-        EXPECT_EQ(player->item, ITEM_NONE);
-        EXPECT_EQ(opponent->item, ITEM_NONE);
+        EXPECT_EQ(player->items[1], ITEM_NONE);
+        EXPECT_EQ(opponent->items[1], ITEM_NONE);
         EXPECT_GT(player->statStages[STAT_SPATK], DEFAULT_STAT_STAGE);
     }
 }

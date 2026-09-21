@@ -345,7 +345,7 @@ SINGLE_BATTLE_TEST("Grudge depletes all PP from a Max Move's base move (Items)")
         MESSAGE("Wobbuffet used Grudge!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_GRUDGE, player);
         MESSAGE("The opposing Wobbuffet used Max Strike!");
-        NOT MESSAGE("The opposing Wobbuffet lost all of Scratch's PP due to the grudge!");
+        MESSAGE("The opposing Wobbuffet lost all of Scratch's PP due to the grudge!");
         MESSAGE("Wobbuffet fainted!");
     } THEN {
         EXPECT_GT(opponent->pp[0], 0);

@@ -680,7 +680,7 @@ SINGLE_BATTLE_TEST("Harvest only works once per turn (Items)")
         STATUS_ICON(opponent, poison: FALSE);
         NOT ABILITY_POPUP(opponent, ABILITY_HARVEST);
     } THEN {
-        EXPECT_EQ(opponent->item, ITEM_NONE);
+        EXPECT_EQ(opponent->items[1], ITEM_NONE);
         EXPECT_EQ(opponent->status1, STATUS1_NONE);
     }
 }

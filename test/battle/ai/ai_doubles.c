@@ -1671,7 +1671,7 @@ AI_DOUBLE_BATTLE_TEST("AI considers status orbs and abilities for Trick/Bestow (
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(species) { Ability(ability); Items(ITEM_PECHA_BERRY, item); Moves(move, MOVE_SCRATCH); Status1(status); }
+        OPPONENT(species) { Ability(ability); Items(ITEM_NONE, item); Moves(move, MOVE_SCRATCH); Status1(status); }
         OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_TACKLE); }
     } WHEN {
         if (turnToTrick == 1)
