@@ -3554,25 +3554,25 @@ static void CB2_GiveHoldItem(void)
 
         sPartyMenuItemId = GetMonData(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId], MON_DATA_HELD_ITEM + slot); // held item
 
-        // Fail if trying to Swap items when Mail is in the first slot
-        if (ItemIsMail(sPartyMenuItemId)
-         || (MonHasMail(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId]) && ItemIsMail(gSpecialVar_ItemId))) // Cannot hold more than one mail
+        // Fail if trying to add a second mail or swap with held mail (Multi)
+        if ((MonHasMail(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId]) && ItemIsMail(gSpecialVar_ItemId))
+         || ItemIsMail(sPartyMenuItemId))
         {
             InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_NONE, DisplayItemMustBeRemovedFirstMessage, gPartyMenu.exitCallback);
         }
-        // Already holding item
-        else if (sPartyMenuItemId != ITEM_NONE) //Check against targeted slot (Multi)
+        // Already holding item in slot, not giving mail (Multi)
+        else if (sPartyMenuItemId != ITEM_NONE)
         {
             InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_NONE, Task_SwitchHoldItemsPrompt, gPartyMenu.exitCallback);
         }
-        // Give mail
+        // Give mail to empty slot (Multi)
         else if (ItemIsMail(gSpecialVar_ItemId))
         {
             RemoveBagItem(gSpecialVar_ItemId, 1);
             GiveItemToMon(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId], gSpecialVar_ItemId);
             CB2_WriteMailToGiveMon();
         }
-        // Give item
+        // Give item to empty slot (Multi)
         else
         {
             InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_NONE, Task_GiveHoldItem, gPartyMenu.exitCallback);
@@ -3700,7 +3700,10 @@ static void CB2_ReturnToPartyMenuFromWritingMail(void)
         }
         TakeMailFromMon(mon);
         SetMonData(mon, MON_DATA_HELD_ITEM + slot, &sPartyMenuItemId);
-        RemoveBagItem(sPartyMenuItemId, 1);
+        if (sPartyMenuItemId != ITEM_NONE)
+        {
+            RemoveBagItem(sPartyMenuItemId, 1);
+        }
         AddBagItem(item, 1);
         InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_CHOOSE_MON, Task_TryCreateSelectionWindow, gPartyMenu.exitCallback);
     }
@@ -7271,29 +7274,29 @@ static void TryGiveItemOrMailToSelectedMon(u8 taskId)
 {
     u16 slot = GetMonNextEmptySlot(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId], gPartyMenu.bagItem);
 
-    if (slot == MAX_MON_ITEMS) //Assign target slot when none are empty (Multi)
+    if (slot == MAX_MON_ITEMS) // Assign target slot when none are empty for swapping (Multi)
     {
         if (B_HELD_ITEM_CATEGORIZATION)
             slot = gItemsInfo[gPartyMenu.bagItem].heldSlot;
         else
-            slot = 0;
+            slot = 0; // Default swap with first item slot (Multi)
     }
-
-    sPartyMenuItemId = GetMonData(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId], MON_DATA_HELD_ITEM + slot); //held item
+    sPartyMenuItemId = GetMonData(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId], MON_DATA_HELD_ITEM + slot); //currently held item (Multi)
     
-    if (sPartyMenuItemId == ITEM_NONE
-     || (MonHasMail(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId]) && !ItemIsMail(gPartyMenu.bagItem))) // Cannot hold more than one mail
-    {
-        GiveItemOrMailToSelectedMon(taskId);
-    }
-    else if (ItemIsMail(sPartyMenuItemId)) // Prevents Swapping items when mail is in the first slot
+    // Fail if trying to add a second mail or swap with held mail (Multi)
+    if ((MonHasMail(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId]) && ItemIsMail(gSpecialVar_ItemId))
+        || ItemIsMail(sPartyMenuItemId))
     {
         DisplayItemMustBeRemovedFirstMessage(taskId);
     }
-    else
+    else if (sPartyMenuItemId != ITEM_NONE) // Already holding item in slot, not giving mail (Multi)
     {
         DisplayAlreadyHoldingItemSwitchMessage(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId], sPartyMenuItemId, TRUE);
         gTasks[taskId].func = Task_SwitchItemsFromBagYesNo;
+    }
+    else // Give item to empty slot (Multi)
+    {
+        GiveItemOrMailToSelectedMon(taskId);
     }
 }
 
@@ -7369,7 +7372,10 @@ static void CB2_ReturnToPartyOrBagMenuFromWritingMail(void)
         }
         TakeMailFromMon(mon);
         SetMonData(mon, MON_DATA_HELD_ITEM + slot, &sPartyMenuItemId);
-        RemoveBagItem(sPartyMenuItemId, 1);
+        if (sPartyMenuItemId != ITEM_NONE)
+        {
+            RemoveBagItem(sPartyMenuItemId, 1);
+        }
         ReturnGiveItemToBagOrPC(item);
         SetMainCallback2(gPartyMenu.exitCallback);
     }

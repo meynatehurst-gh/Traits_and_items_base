@@ -3657,7 +3657,7 @@ bool32 IsFlinchGuaranteed(enum BattlerId battlerAtk, enum BattlerId battlerDef, 
 }
 
 bool32 AI_HasChoiceEffect(enum BattlerId battler)
-{ DebugPrintf("Choice effect2");
+{
     if (AI_BATTLER_HAS_TRAIT(battler, ABILITY_GORILLA_TACTICS))
         return TRUE;
 

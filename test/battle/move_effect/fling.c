@@ -1599,4 +1599,33 @@ SINGLE_BATTLE_TEST("Fling - White Herb effect should not remove the target's hel
         EXPECT_EQ(opponent->items[1], ITEM_RAZOR_CLAW);
     }
 }
+
+SINGLE_BATTLE_TEST("Fling correctly throws one removable item when more than one item is available (Items)")
+{
+    enum Item item, item2;
+    
+    PARAMETRIZE { item = ITEM_GRISEOUS_CORE; item2 = ITEM_POTION; }
+    PARAMETRIZE { item = ITEM_POTION; item2 = ITEM_GRISEOUS_CORE; }
+    PARAMETRIZE { item = ITEM_POTION; item2 = ITEM_POTION; }
+    GIVEN {
+        PLAYER(SPECIES_GIRATINA_ORIGIN) { Items(item, item2); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_FLING); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_FLING, player);
+    } THEN {
+        if (item2 == ITEM_POTION) {
+            EXPECT(player->items[1] == ITEM_NONE);
+        } else if (item == ITEM_POTION) {
+            EXPECT(player->items[0] == ITEM_NONE);
+        }
+        if (item2 == ITEM_GRISEOUS_CORE) {
+            EXPECT(player->items[1]== ITEM_GRISEOUS_CORE);
+        } else if (item == ITEM_GRISEOUS_CORE) {
+            EXPECT(player->items[0]== ITEM_GRISEOUS_CORE);
+        }
+    }
+}
+
 #endif

@@ -149,8 +149,13 @@ void TakeMailFromMon(struct Pokemon *mon)
         heldItem[1] = ITEM_NONE << 8;
         SetMonData(mon, MON_DATA_MAIL, &mailId);
         for (u8 i = 0; i < MAX_MON_ITEMS; i++)
+        {
             if (ItemIsMail(GetMonData(mon, MON_DATA_HELD_ITEM + i)))
+            {
                 SetMonData(mon, MON_DATA_HELD_ITEM + i, heldItem);
+                break;
+            }
+        }
     }
 }
 
@@ -186,7 +191,14 @@ u8 TakeMailFromMonAndSave(struct Pokemon *mon)
         mailId = MAIL_NONE;
         SetMonData(mon, MON_DATA_MAIL, &mailId);
         heldItem = ITEM_NONE;
-        SetMonData(mon, MON_DATA_HELD_ITEM, &heldItem);
+        for (u8 i = 0; i < MAX_MON_ITEMS; i++)
+        {
+            if (ItemIsMail(GetMonData(mon, MON_DATA_HELD_ITEM + i)))
+            {
+                SetMonData(mon, MON_DATA_HELD_ITEM + i, &heldItem);
+                break;
+            }
+        }
     }
     return newMailId;
 }

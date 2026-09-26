@@ -1,6 +1,9 @@
 <img width="480" height="320" alt="image" src="https://github.com/user-attachments/assets/eb38a05c-d586-4659-b045-420c603e9ec1" /> <img width="480" height="320" alt="image" src="https://github.com/user-attachments/assets/6c43a30a-728d-4973-8665-8d725fc44448" />
 
-This Trait and Items branch combines the features found in Trait System an Multi Items to allow multiple abilities and held items to be used by your Pokemon.
+This Trait and Items branch combines the features found in Trait System an Multi Items to allow multiple abilities and held items to be used by your Pokemon.  Both features can be configured individually including disabling one to only keep the other.
+
+# Bug Fix (1.15.1.3)
+- Fixed damage reduction berries triggering on all types.
 
 # Bug Fix (1.15.1.1)
 - Fixed pokemon transparency not being set correctly when first opening the PC's Item Move system.
@@ -12,10 +15,10 @@ Single Abilities or Items now supported so that this one branch can also be used
 # New Feature (1.14.3)
 Duplicate passive item support added so holding more than one of a passive item can stack their effects.  For example, two Charcoals will further boost fire attacks.  Since this function might be overpowered, there is also an option to toggle it using the B_ALLOW_HELD_DUPES flag.  This flag is disabled by default so this feature needss to be manually enabled.
 
-# Trait System (Release 1.15.1.1)
+# Trait System (Release 1.16.2)
 
 This is the full release of the Multi-Ability function I'm calling the Trait System!
-Currently updated to Pokeemerald Expansion 1.15.1
+Currently updated to Pokeemerald Expansion 1.16.2
 
 The Trait System allows you to assign more than one ability to each pokemon for more complex and more interesting setups.
 
@@ -49,7 +52,7 @@ Basic code bedrock design comes from old Emerald Redux code with permission.
 Huge thanks to the RH Hideout discord community for their help, advice, and testing, especially Alex, Surskitty, Kleem, Meister_anon, and MGriffin who helped make this possible.
 
 
-# Multi-Items (Release 1.15.1.1)
+# Multi-Items (Release 1.16.2)
 
 This is the full release of a Multi-Item system which allows pokemon to hold more than one item at a time. By default this feature branch provides a second held item slot but it can be modified for more or less fairly easily. Currently updated to Pokeemerald Expansion 1.14.3.
 

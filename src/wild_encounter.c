@@ -1167,9 +1167,11 @@ static void ApplyCleanseTagEncounterRateMod(u32 *encRate)
     for (i = 0; i < MAX_MON_ITEMS; i++)
     {
         enum Item heldItem = GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_HELD_ITEM + i);
-    if (gItemsInfo[heldItem].holdEffect == HOLD_EFFECT_REPEL && (firstMatch || GetConfig(B_ALLOW_HELD_DUPES)))
+        if (gItemsInfo[heldItem].holdEffect == HOLD_EFFECT_REPEL && (firstMatch || GetConfig(B_ALLOW_HELD_DUPES)))
+        {
             firstMatch = FALSE;
             *encRate = *encRate * 2 / 3;
+        }
     }
 }
 
