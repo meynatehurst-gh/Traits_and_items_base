@@ -6837,7 +6837,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .baseSpeed     = 30,
         .baseSpAttack  = 145,
         .baseSpDefense = 130,
-        .types = MON_TYPES(TYPE_GHOST),
+        .types = MON_TYPES(TYPE_GHOST, TYPE_ROCK),
         .catchRate = 30,
         .expYield = 179,
         .evYield_SpAttack = 2,
@@ -6915,10 +6915,11 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_WATER_1, EGG_GROUP_WATER_2),
     #if P_UPDATED_ABILITIES >= GEN_4
-        .abilities = { ABILITY_HUSTLE, ABILITY_SNIPER, ABILITY_MOODY },
+        .abilities = { ABILITY_HUSTLE, ABILITY_SNIPER, ABILITY_BULLET_SPRAY },
     #else
         .abilities = { ABILITY_HUSTLE, ABILITY_NONE, ABILITY_MOODY },
     #endif
+        .innates = { ABILITY_PROJECTOR, ABILITY_SWIFT_SWIM },
         .bodyColor = BODY_COLOR_GRAY,
         .speciesName = _("Remoraid"),
         .cryId = CRY_REMORAID,
@@ -6989,10 +6990,11 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_WATER_1, EGG_GROUP_WATER_2),
     #if P_UPDATED_ABILITIES >= GEN_4
-        .abilities = { ABILITY_SUCTION_CUPS, ABILITY_SNIPER, ABILITY_MOODY },
+        .abilities = { ABILITY_SUCTION_CUPS, ABILITY_SNIPER, ABILITY_BULLET_SPRAY },
     #else
         .abilities = { ABILITY_SUCTION_CUPS, ABILITY_NONE, ABILITY_MOODY },
     #endif
+        .innates = { ABILITY_PROJECTOR, ABILITY_BATTLE_ARMOR, ABILITY_IRONCLAD },
         .bodyColor = BODY_COLOR_RED,
         .speciesName = _("Octillery"),
         .cryId = CRY_OCTILLERY,
@@ -7076,7 +7078,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_WATER_1, EGG_GROUP_FIELD),
-        .abilities = { ABILITY_VITAL_SPIRIT, ABILITY_HUSTLE, ABILITY_INSOMNIA },
+        .abilities = { ABILITY_VITAL_SPIRIT, ABILITY_HUSTLE, ABILITY_SLUSH_RUSH },
+        .innates = { ABILITY_AERILATE, ABILITY_KEEN_EYE, ABILITY_FLUFFY },
         .bodyColor = BODY_COLOR_RED,
         .noFlip = TRUE,
         .speciesName = _("Delibird"),
