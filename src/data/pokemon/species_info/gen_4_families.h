@@ -22,6 +22,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_MONSTER, EGG_GROUP_GRASS),
         .abilities = { ABILITY_OVERGROW, ABILITY_NONE, ABILITY_SHELL_ARMOR },
+        .innates = { ABILITY_STRONG_JAW },
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Turtwig"),
         .cryId = CRY_TURTWIG,
@@ -75,10 +76,10 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
 
     [SPECIES_GROTLE] =
     {
-        .baseHP        = 75,
+        .baseHP        = 90,
         .baseAttack    = 89,
         .baseDefense   = 85,
-        .baseSpeed     = 36,
+        .baseSpeed     = 21,
         .baseSpAttack  = 55,
         .baseSpDefense = 65,
         .types = MON_TYPES(TYPE_GRASS),
@@ -92,6 +93,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_MONSTER, EGG_GROUP_GRASS),
         .abilities = { ABILITY_OVERGROW, ABILITY_NONE, ABILITY_SHELL_ARMOR },
+        .innates = { ABILITY_STRONG_JAW, ABILITY_WATER_ABSORB },
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Grotle"),
         .cryId = CRY_GROTLE,
@@ -144,10 +146,10 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
 
     [SPECIES_TORTERRA] =
     {
-        .baseHP        = 95,
+        .baseHP        = 140,
         .baseAttack    = 109,
         .baseDefense   = 105,
-        .baseSpeed     = 56,
+        .baseSpeed     = 11,
         .baseSpAttack  = 75,
         .baseSpDefense = 85,
         .types = MON_TYPES(TYPE_GRASS, TYPE_GROUND),
@@ -167,6 +169,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_MONSTER, EGG_GROUP_GRASS),
         .abilities = { ABILITY_OVERGROW, ABILITY_NONE, ABILITY_SHELL_ARMOR },
+        .innates = { ABILITY_MASSIVE, ABILITY_WATER_ABSORB, ABILITY_SOLID_ROCK },
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = TRUE,
         .speciesName = _("Torterra"),
@@ -236,6 +239,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD, EGG_GROUP_HUMAN_LIKE),
         .abilities = { ABILITY_BLAZE, ABILITY_NONE, ABILITY_IRON_FIST },
+        .innates = { ABILITY_GENERALIST },
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = TRUE,
         .speciesName = _("Chimchar"),
@@ -310,6 +314,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD, EGG_GROUP_HUMAN_LIKE),
         .abilities = { ABILITY_BLAZE, ABILITY_NONE, ABILITY_IRON_FIST },
+        .innates = { ABILITY_GENERALIST, ABILITY_MONKEY_BUSINESS },
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = TRUE,
         .speciesName = _("Monferno"),
@@ -389,6 +394,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD, EGG_GROUP_HUMAN_LIKE),
         .abilities = { ABILITY_BLAZE, ABILITY_NONE, ABILITY_IRON_FIST },
+        .innates = { ABILITY_GENERALIST, ABILITY_MONKEY_BUSINESS, ABILITY_WISDOM },
         .bodyColor = BODY_COLOR_BROWN,
         .speciesName = _("Infernape"),
         .cryId = CRY_INFERNAPE,
@@ -462,6 +468,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
     #else
         .abilities = { ABILITY_TORRENT, ABILITY_NONE, ABILITY_DEFIANT },
     #endif
+        .innates = { ABILITY_ICE_SLIDER },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Piplup"),
         .cryId = CRY_PIPLUP,
@@ -535,6 +542,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
     #else
         .abilities = { ABILITY_TORRENT, ABILITY_NONE, ABILITY_DEFIANT },
     #endif
+        .innates = { ABILITY_ICE_SLIDER, ABILITY_GALE_WINGS },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Prinplup"),
         .cryId = CRY_PRINPLUP,
@@ -619,6 +627,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
     #else
         .abilities = { ABILITY_TORRENT, ABILITY_NONE, ABILITY_DEFIANT },
     #endif
+        .innates = { ABILITY_ICE_SLIDER, ABILITY_BATTLE_ARMOR, ABILITY_GALE_WINGS },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Empoleon"),
         .cryId = CRY_EMPOLEON,
